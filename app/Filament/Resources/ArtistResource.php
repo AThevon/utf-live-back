@@ -19,13 +19,21 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Grid;
 use Illuminate\Support\Str;
 use App\Filament\Resources\ArtistResource\RelationManagers\ImageRelationManager;
+use App\Filament\Resources\ArtistResource\RelationManagers\SocialLinksRelationManager;
 
 
 class ArtistResource extends Resource
 {
   protected static ?string $model = Artist::class;
 
-  protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+  protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
+  protected static ?string $navigationGroup = 'Contenu';
+
+  public static function getNavigationBadge(): ?string
+  {
+    return static::getModel()::count();
+  }
 
   public static function form(Form $form): Form
   {
@@ -58,15 +66,13 @@ class ArtistResource extends Resource
             ->live()
             ->inline(false)
             ->columnSpan(1),
+
+          Textarea::make('bio')
+            ->rows(8)
+            ->nullable()
+            ->label('Biographie')
+            ->columnSpan(12),
         ]),
-
-      Textarea::make('bio')->rows(4)->nullable()->label('Biographie'),
-
-      KeyValue::make('social_links')
-        ->label('Réseaux sociaux')
-        ->nullable()
-        ->dehydrated(fn($state) => filled($state))
-        ->default([]),
     ]);
   }
 
@@ -74,14 +80,23 @@ class ArtistResource extends Resource
   {
     return $table
       ->columns([
+        Tables\Columns\ImageColumn::make('image_url')
+          ->label(' ')
+          ->getStateUsing(function (Artist $record) {
+            return $record->images()->first()?->url;
+          })
+          ->circular()
+          ->size(40)
+          ->defaultImageUrl('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>'),
+
         Tables\Columns\TextColumn::make('name')
           ->searchable(),
-        Tables\Columns\TextColumn::make('slug')
-          ->searchable(),
+
         Tables\Columns\TextColumn::make('created_at')
           ->dateTime()
           ->sortable()
-          ->toggleable(isToggledHiddenByDefault: true),
+          ->toggleable(isToggledHiddenByDefault: false),
+
         Tables\Columns\TextColumn::make('updated_at')
           ->dateTime()
           ->sortable()
@@ -104,6 +119,7 @@ class ArtistResource extends Resource
   {
     return [
       ImageRelationManager::class,
+      SocialLinksRelationManager::class,
     ];
   }
 

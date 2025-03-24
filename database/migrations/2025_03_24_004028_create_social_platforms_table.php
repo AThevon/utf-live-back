@@ -10,13 +10,14 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('artists', function (Blueprint $table) {
+    Schema::create('social_platforms', function (Blueprint $table) {
       $table->id();
-      $table->string('name');
+      $table->string('name'); 
       $table->string('slug')->unique();
-      $table->text('bio')->nullable();
+      $table->string('icon')->nullable();
       $table->timestamps();
     });
+
   }
 
   /**
@@ -24,6 +25,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('artists');
+    Schema::dropIfExists('social_platforms');
   }
 };

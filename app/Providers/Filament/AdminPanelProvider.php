@@ -55,6 +55,7 @@ class AdminPanelProvider extends PanelProvider
         Authenticate::class,
       ])
       ->brandName('UTF Live')
-      ->brandLogo(fn() => view('filament.brand.logo'));
+      ->brandLogo(fn() => view('filament.brand.logo'))
+      ->collapsibleNavigationGroups(false);
   }
 }

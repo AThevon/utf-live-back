@@ -15,11 +15,6 @@ class Artist extends Model
     'name',
     'slug',
     'bio',
-    'social_links',
-  ];
-
-  protected $casts = [
-    'social_links' => 'array',
   ];
 
   /**
@@ -33,11 +28,22 @@ class Artist extends Model
 
   public function images(): MorphMany
   {
-      return $this->morphMany(\App\Models\Image::class, 'imageable');
+    return $this->morphMany(\App\Models\Image::class, 'imageable');
   }
+
+  public function socialLinks(): HasMany
+  {
+    return $this->hasMany(ArtistSocialLink::class);
+  }
+
 
   public function getPhotoUrlAttribute(): ?string
   {
     return $this->image?->url;
+  }
+
+  public function getRouteKeyName(): string
+  {
+    return 'slug';
   }
 }
