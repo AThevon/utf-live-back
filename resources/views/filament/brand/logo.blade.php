@@ -1,0 +1,1 @@
+<img src="{{ asset('logo-utf.svg') }}" alt="UTF Live" class="h-8">

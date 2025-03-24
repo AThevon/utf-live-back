@@ -1,0 +1,25 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#3125
+    [34mall[39m: [
+      [34;4mApp\Models\Artist[39;24m {#7033
+        [34mid[39m: [35m4[39m,
+        [34mname[39m: "[32mCoucou[39m",
+        [34mslug[39m: "[32mcoucou[39m",
+        [34mphoto[39m: "[32martists/01JQ2766NYQ583K90F7RD31KTK.png[39m",
+        [34mbio[39m: "[32mcoucou[39m",
+        [34msocial_links[39m: "[32m[][39m",
+        [34mcreated_at[39m: "[32m2025-03-23 19:20:32[39m",
+        [34mupdated_at[39m: "[32m2025-03-23 19:20:32[39m",
+      },
+      [34;4mApp\Models\Artist[39;24m {#7034
+        [34mid[39m: [35m5[39m,
+        [34mname[39m: "[32mTest2[39m",
+        [34mslug[39m: "[32mtest2[39m",
+        [34mphoto[39m: "[32martists/01JQ27CA6NM1T61V2S6TMQNWC3.png[39m",
+        [34mbio[39m: "[32mokhjlkjh lkjhlkjhlkj[39m",
+        [34msocial_links[39m: "[32m[][39m",
+        [34mcreated_at[39m: "[32m2025-03-23 19:23:53[39m",
+        [34mupdated_at[39m: "[32m2025-03-23 19:23:53[39m",
+      },
+    ],
+  }
+
