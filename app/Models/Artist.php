@@ -46,4 +46,14 @@ class Artist extends Model
   {
     return 'slug';
   }
+
+  public function profileImage(): ?Image
+  {
+    return $this->images()->where('is_profile', true)->first();
+  }
+
+  public function thumbnailImage(): ?Image
+  {
+    return $this->images()->where('is_thumbnail', true)->first();
+  }
 }

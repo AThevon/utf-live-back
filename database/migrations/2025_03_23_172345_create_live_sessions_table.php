@@ -16,7 +16,6 @@ return new class extends Migration {
       $table->string('slug')->unique();
       $table->foreignId('artist_id')->constrained()->cascadeOnDelete();
       $table->string('video_url');
-      $table->string('thumbnail')->nullable();
       $table->date('recorded_at')->nullable();
       $table->date('published_at')->nullable();
       $table->text('description')->nullable();

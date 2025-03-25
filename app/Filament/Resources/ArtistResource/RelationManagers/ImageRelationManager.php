@@ -10,8 +10,12 @@ use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Support\Str;
 
 class ImageRelationManager extends RelationManager
@@ -46,15 +50,26 @@ class ImageRelationManager extends RelationManager
     return $table
       ->recordTitleAttribute('alt')
       ->columns([
-        Tables\Columns\ImageColumn::make('path')
+        ImageColumn::make('path')
           ->label('Image')
           ->size(100)
           ->url(fn($record) => filled($record->path) ? Storage::disk('s3')->url($record->path) : 'https://placehold.co/40x40'),
-        Tables\Columns\TextColumn::make('alt'),
-        Tables\Columns\TextColumn::make('created_at')->dateTime('d/m/Y H:i'),
+        TextColumn::make('alt'),
+        TextColumn::make('created_at')->dateTime('d/m/Y H:i'),
+        ToggleColumn::make('is_profile')
+          ->label('Image de profil')
+          ->default(false)
+          ->inline(false)
+          ->toggleable(),
+
+        ToggleColumn::make('is_thumbnail')
+          ->label('Image de vignette')
+          ->default(false)
+          ->inline(false)
+          ->toggleable(),
       ])
       ->headerActions([
-        Tables\Actions\CreateAction::make(),
+        CreateAction::make(),
       ])
       ->actions([
         ViewAction::make(),

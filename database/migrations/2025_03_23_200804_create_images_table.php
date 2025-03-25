@@ -12,9 +12,11 @@ return new class extends Migration {
   {
     Schema::create('images', function (Blueprint $table) {
       $table->id();
-      $table->string('path'); // ex: 'artists/xxx.png'
-      $table->string('alt')->nullable(); // pour l’accessibilité
-      $table->nullableMorphs('imageable'); // morph : artist, session, etc.
+      $table->string('path');
+      $table->string('alt')->nullable();
+      $table->boolean('is_profile')->default(false);
+      $table->boolean('is_thumbnail')->default(false);
+      $table->nullableMorphs('imageable');
       $table->timestamps();
     });
   }
