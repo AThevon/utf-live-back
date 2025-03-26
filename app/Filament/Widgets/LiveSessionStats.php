@@ -6,15 +6,15 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use App\Models\Artist;
 
-class ArtistStats extends BaseWidget
-{
+class LiveSessionStats extends BaseWidget
+{ 
   protected function getStats(): array
   {
     return [
-      Stat::make('Artistes', Artist::count())
-        ->description('Total artistes enregistrés')
-        ->color('primary')
-        ->icon('heroicon-o-users'),
+      Stat::make('Live Sessions', Artist::count())
+      ->description('Total live sessions enregistrés')
+      ->color('primary')
+      ->icon('heroicon-o-video-camera'),
     ];
   }
 
@@ -22,7 +22,7 @@ class ArtistStats extends BaseWidget
   {
     return 1;
   }
-
+  
   public function getColumnSpan(): int|string|array
   {
     return 1; 

@@ -10,15 +10,13 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('live_sessions', function (Blueprint $table) {
+    Schema::create('artist_live_session_participant', function (Blueprint $table) {
       $table->id();
-      $table->string('title');
-      $table->string('slug')->unique();
       $table->foreignId('artist_id')->constrained()->cascadeOnDelete();
-      $table->string('video_url');
-      $table->date('published_at')->nullable();
-      $table->text('description')->nullable();
+      $table->foreignId('live_session_id')->constrained()->cascadeOnDelete();
       $table->timestamps();
+
+      $table->unique(['artist_id', 'live_session_id']); // un artiste ne participe qu'une fois à une session
     });
   }
 
@@ -27,6 +25,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('live_sessions');
+    Schema::dropIfExists('artist_live_session_participant');
   }
 };

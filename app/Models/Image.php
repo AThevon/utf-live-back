@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Image extends Model
 {
-  protected $fillable = ['path', 'alt'];
+  protected $fillable = ['path', 'alt', 'is_profile', 'is_thumbnail'];
 
   public static function booted(): void
   {
@@ -24,6 +24,12 @@ class Image extends Model
           ->where('imageable_type', $image->imageable_type)
           ->where('id', '!=', $image->id)
           ->update(['is_thumbnail' => false]);
+      }
+    });
+
+    static::deleting(function ($image) {
+      if ($image->path && Storage::disk('s3')->exists($image->path)) {
+        Storage::disk('s3')->delete($image->path);
       }
     });
   }

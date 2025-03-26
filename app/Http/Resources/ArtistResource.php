@@ -16,11 +16,21 @@ class ArtistResource extends JsonResource
       'bio' => $this->bio,
 
       'images' => $this->images->map(function ($image) {
-        return [
+        $data = [
           'id' => $image->id,
           'url' => $image->url,
           'alt' => $image->alt,
         ];
+
+        if ($image->is_profile) {
+          $data['is_profile'] = true;
+        }
+
+        if ($image->is_thumbnail) {
+          $data['is_thumbnail'] = true;
+        }
+
+        return $data;
       }),
 
       'socials' => $this->whenLoaded('socialLinks', function () {

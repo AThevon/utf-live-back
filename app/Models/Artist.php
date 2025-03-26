@@ -17,14 +17,15 @@ class Artist extends Model
     'bio',
   ];
 
-  /**
-   * Relation avec les live sessions.
-   */
-  public function liveSessions(): HasMany
+  public function liveSessionsAsMain(): HasMany
   {
-    return $this->hasMany(LiveSession::class);
+    return $this->hasMany(LiveSession::class, 'artist_id');
   }
 
+  public function liveSessionsAsParticipant()
+  {
+    return $this->belongsToMany(LiveSession::class, 'artist_live_session_participant');
+  }
 
   public function images(): MorphMany
   {
@@ -35,7 +36,6 @@ class Artist extends Model
   {
     return $this->hasMany(ArtistSocialLink::class);
   }
-
 
   public function getPhotoUrlAttribute(): ?string
   {
@@ -55,5 +55,15 @@ class Artist extends Model
   public function thumbnailImage(): ?Image
   {
     return $this->images()->where('is_thumbnail', true)->first();
+  }
+
+  public function hasLiveSession(): bool
+  {
+    return $this->liveSessionsAsMain()->exists();
+  }
+
+  public function isOnlyParticipant(): bool
+  {
+    return !$this->hasLiveSession() && $this->liveSessionsAsParticipant()->exists();
   }
 }

@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArtistResource;
+use App\Http\Resources\ArtistListResource;
 use App\Models\Artist;
 
 class ArtistController extends Controller
 {
   public function index()
   {
-    return ArtistResource::collection(
-      Artist::with(['images', 'socialLinks.platform'])->get()
+    return ArtistListResource::collection(
+      Artist::whereHas('liveSessionsAsMain')
+        ->with(['images'])
+        ->get()
     );
   }
 
