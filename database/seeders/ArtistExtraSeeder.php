@@ -8,6 +8,7 @@ use App\Models\SocialPlatform;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class ArtistExtraSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class ArtistExtraSeeder extends Seeder
   {
     $artists = Artist::all();
     $platforms = SocialPlatform::all();
+    $genres = ['Rap', 'Pop', 'Rock', 'Jazz', 'Électro', 'Chill', 'RnB', 'Classique', 'Reggae', 'Indie'];
+
 
     foreach ($artists as $artist) {
       // Live Sessions
@@ -22,8 +25,9 @@ class ArtistExtraSeeder extends Seeder
         'slug' => Str::slug($artist->name . ' Live Session'),
       ], [
         'title' => $artist->name . ' Live Session',
+        'genre' => Arr::random($genres),
         'artist_id' => $artist->id,
-        'video_url' => 'https://youtube.com/watch?v=' . Str::random(11),
+        'video_url' => 'https://www.youtube.com/embed/KznVKreSaDc?si=Vy2iBTL10g96taN9',
         'description' => 'Session live exclusive de ' . $artist->name,
         'published_at' => now()->subDays(rand(0, 100)),
       ]);

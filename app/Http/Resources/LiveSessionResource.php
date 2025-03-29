@@ -13,13 +13,14 @@ class LiveSessionResource extends JsonResource
       'id' => $this->id,
       'title' => $this->title,
       'slug' => $this->slug,
+      'genre' => $this->genre,
       'video_url' => $this->video_url,
       'description' => $this->description,
       'published_at' => $this->published_at?->toDateString(),
 
-      'artist' => new ArtistResource($this->whenLoaded('artist')),
+      'artist' => new ArtistCompactResource($this->whenLoaded('artist')),
 
-      'participants' => ArtistResource::collection($this->whenLoaded('participants')),
+      'participants' => ParticipantResource::collection($this->whenLoaded('participants')),
 
       'created_at' => $this->created_at->toDateTimeString(),
       'updated_at' => $this->updated_at->toDateTimeString(),

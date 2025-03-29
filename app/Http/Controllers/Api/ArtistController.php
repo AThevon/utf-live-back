@@ -14,6 +14,7 @@ class ArtistController extends Controller
     return ArtistListResource::collection(
       Artist::whereHas('liveSessionsAsMain')
         ->with(['images'])
+        ->orderByDesc('created_at')
         ->get()
     );
   }

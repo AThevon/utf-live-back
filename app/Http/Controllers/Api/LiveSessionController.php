@@ -12,7 +12,9 @@ class LiveSessionController extends Controller
   public function index()
   {
     return LiveSessionListResource::collection(
-      LiveSession::with('artist.images')->get()
+      LiveSession::with('artist.images')
+        ->orderByDesc('published_at')
+        ->get()
     );
   }
 

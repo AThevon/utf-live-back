@@ -16,7 +16,7 @@ use Filament\Support\Enums\IconPosition;
 class SocialLinksRelationManager extends RelationManager
 {
   protected static string $relationship = 'socialLinks';
-  protected static ?string $title = 'Réseaux sociaux';
+  protected static ?string $title = 'Réseaux';
 
   public function form(Forms\Form $form): Forms\Form
   {
@@ -26,12 +26,16 @@ class SocialLinksRelationManager extends RelationManager
         ->relationship('platform', 'name')
         ->searchable()
         ->preload()
-        ->getOptionLabelFromRecordUsing(fn($record) => "
-        <div class='flex items-center gap-2'>
-          <img src='{$record->icon}' alt='{$record->name}' class='w-5 h-5' />
-          {$record->name}
-        </div>
-      ")
+        ->getOptionLabelFromRecordUsing(function ($record) {
+          $url = asset('storage/' . ltrim($record->icon, '/'));
+
+          return "
+            <div class='flex items-center gap-2'>
+              <img src='{$url}' alt='{$record->name}' class='w-5 h-5 object-contain' />
+              {$record->name}
+            </div>
+          ";
+        })
         ->allowHtml()
         ->required()
         ->placeholder('Choisir une plateforme'),
@@ -51,6 +55,7 @@ class SocialLinksRelationManager extends RelationManager
       ->columns([
         Tables\Columns\ImageColumn::make('platform.icon_url')
           ->label(' ')
+          ->getStateUsing(fn ($record) => asset('storage/' . ltrim($record->platform->icon, '/')))
           ->width(24)
           ->height(24),
 

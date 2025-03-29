@@ -9,6 +9,7 @@ class LiveSession extends Model
   protected $fillable = [
     'title',
     'slug',
+    'genre',
     'artist_id',
     'video_url',
     'published_at',

@@ -16,9 +16,9 @@ class ArtistSeeder extends Seeder
   {
     $artists = [
       [
-        'name' => 'Jeune JR',
-        'slug' => Str::slug('Jeune JR'),
-        'bio' => 'Rappeur Tourangeaux au flow percutant.',
+        'name' => 'NIYMA',
+        'slug' => Str::slug('NIYMA'),
+        'bio' => 'Rappeur lo-fi à l’univers chill & relax.',
       ],
       [
         'name' => 'Jane et Les Autres',
@@ -26,9 +26,14 @@ class ArtistSeeder extends Seeder
         'bio' => 'Chanteuse pop aux influences electro et latines.',
       ],
       [
-        'name' => 'NIYMA',
-        'slug' => Str::slug('NIYMA'),
-        'bio' => 'Rappeur lo-fi à l’univers chill & relax.',
+        'name' => 'Cazlab',
+        'slug' => Str::slug('Cazlab'),
+        'bio' => 'Chanteuse pop aux influences electro et latines.',
+      ],
+      [
+        'name' => 'Jeune JR',
+        'slug' => Str::slug('Jeune JR'),
+        'bio' => 'Rappeur Tourangeaux au flow percutant.',
       ],
     ];
 

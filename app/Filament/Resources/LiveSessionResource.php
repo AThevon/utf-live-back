@@ -16,6 +16,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Actions;
+use Filament\Notifications\Notification;
+use App\Services\YoutubeService;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Grid;
 use Illuminate\Support\Str;
@@ -66,24 +69,21 @@ class LiveSessionResource extends Resource
 
         Select::make('artist_id')
           ->label('Artiste')
-          ->options(
-            Artist::all()->mapWithKeys(fn($artist) => [
-              $artist->id => '
-                <div class="flex items-center gap-2">
-                  ' . ($artist->profileImage()?->url
-                ? '<img src="' . $artist->profileImage()->url . '" class="w-5 h-5 rounded-full object-cover" alt="' . $artist->name . '" />'
-                : '<div class="w-5 h-5 rounded-full bg-gray-300"></div>'
-              ) . '
-                  <span>' . $artist->name . '</span>
-                </div>',
-            ])
-          )
+          ->relationship('artist', 'name')
           ->searchable()
           ->preload()
+          ->getOptionLabelFromRecordUsing(function ($record) {
+            return '
+                  <div class="flex items-center gap-2">
+                      ' . ($record->profileImage()?->url
+              ? '<img src="' . $record->profileImage()->url . '" class="w-5 h-5 rounded-full object-cover" />'
+              : '<div class="w-5 h-5 rounded-full bg-gray-300"></div>') . '
+                      <span>' . $record->name . '</span>
+                  </div>';
+          })
           ->allowHtml()
           ->required()
           ->placeholder('Choisir un artiste')
-          ->searchLabels(false)
           ->columnSpan(6),
 
         Select::make('participants')
@@ -113,21 +113,84 @@ class LiveSessionResource extends Resource
           ->columnSpan(6),
 
 
-        TextInput::make('video_url')
-          ->label('URL de la vidéo')
-          ->required()
-          ->url()
-          ->columnSpan(6),
+        Grid::make(12)->schema([
+          TextInput::make('video_url')
+            ->label('URL de la vidéo')
+            ->required()
+            ->url()
+            ->live(onBlur: true)
+            ->afterStateUpdated(function ($state, callable $set) {
+              // Récupère l'ID via regex
+              preg_match('/(?:v=|embed\/)([a-zA-Z0-9_-]{11})/', $state, $matches);
 
-        DatePicker::make('published_at')
-          ->label('Date de publication')
-          ->columnSpan(6),
+              if (isset($matches[1])) {
+                $videoId = $matches[1];
+                $set('video_url', 'https://www.youtube.com/embed/' . $videoId);
+              }
+            })
+            ->columnSpan(6),
+
+          TextInput::make('genre')
+            ->label('Genre')
+            ->required()
+            ->placeholder('Genre de la session')
+            ->columnSpan(3),
+
+          DatePicker::make('published_at')
+            ->label('Date de publication')
+            ->required()
+            ->columnSpan(3),
+        ]),
+
 
         Textarea::make('description')
           ->label('Description')
-          ->rows(5)
+          ->rows(10)
           ->nullable()
           ->columnSpan(12),
+
+        Actions::make([
+          Actions\Action::make('fetchYoutubeDescription')
+            ->label('Importer depuis YouTube')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->size('lg')
+            ->action(function ($livewire, $data) {
+              $videoUrl = $livewire->form->getState()['video_url'] ?? null;
+
+              if (!$videoUrl) {
+                Notification::make()
+                  ->title('URL manquante')
+                  ->body("Tu dois d'abord renseigner l'URL de la vidéo.")
+                  ->danger()
+                  ->send();
+                return;
+              }
+
+              $videoId = Str::between($videoUrl, 'embed/', '?') ?: Str::after($videoUrl, 'embed/');
+              $snippet = app(abstract: YoutubeService::class)->fetchSnippet($videoId);
+
+              if (!$snippet || empty($snippet['description'])) {
+                Notification::make()
+                  ->title("Échec")
+                  ->body("Impossible de récupérer la description.")
+                  ->danger()
+                  ->send();
+                return;
+              }
+
+              $livewire->form->fill([
+                ...$livewire->form->getState(),
+                'description' => $snippet['description'],
+              ]);
+
+              Notification::make()
+                ->title('Description importée')
+                ->success()
+                ->send();
+            }),
+        ])
+          ->columnSpan(12),
+
       ]),
     ]);
   }

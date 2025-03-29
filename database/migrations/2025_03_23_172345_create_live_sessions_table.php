@@ -14,6 +14,7 @@ return new class extends Migration {
       $table->id();
       $table->string('title');
       $table->string('slug')->unique();
+      $table->string('genre')->nullable();
       $table->foreignId('artist_id')->constrained()->cascadeOnDelete();
       $table->string('video_url');
       $table->date('published_at')->nullable();
