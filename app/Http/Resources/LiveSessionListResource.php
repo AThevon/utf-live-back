@@ -19,10 +19,7 @@ class LiveSessionListResource extends JsonResource
       'video_url' => $this->video_url,
       'published_at' => $this->published_at?->toDateString(),
       'thumbnail_url' => $thumbnail?->url,
-      'artist' => [
-        'name' => $this->artist->name,
-        'slug' => $this->artist->slug,
-      ],
+      'artist' => new ArtistCompactResource($this->whenLoaded('artist')),
     ];
   }
 }
