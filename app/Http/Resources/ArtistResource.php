@@ -42,6 +42,8 @@ class ArtistResource extends JsonResource
         return SocialPlatformResource::collection($this->socialLinks);
       }),
 
+      'latest_session_slug' => optional($this->liveSessionsAsMain->sortByDesc('created_at')->first())->slug,
+
       'created_at' => $this->created_at->toDateTimeString(),
       'updated_at' => $this->updated_at->toDateTimeString(),
     ];

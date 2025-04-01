@@ -18,7 +18,7 @@ class ArtistController extends Controller
         ->get()
     );
   }
-
+  
   public function show(Artist $artist)
   {
     $artist->load(['images', 'socialLinks.platform']);
