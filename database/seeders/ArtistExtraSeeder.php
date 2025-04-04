@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Artist;
 use App\Models\LiveSession;
-use App\Models\SocialPlatform;
+use App\Models\Platform;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ class ArtistExtraSeeder extends Seeder
   public function run(): void
   {
     $artists = Artist::all();
-    $platforms = SocialPlatform::all();
+    $platforms = Platform::all();
     $genres = ['Rap', 'Pop', 'Rock', 'Jazz', 'Électro', 'Chill', 'RnB', 'Classique', 'Reggae', 'Indie'];
 
 
@@ -36,9 +36,9 @@ class ArtistExtraSeeder extends Seeder
       $samplePlatforms = $platforms->random(2);
 
       foreach ($samplePlatforms as $platform) {
-        DB::table('artist_social_links')->updateOrInsert([
+        DB::table('artist_platform_links')->updateOrInsert([
           'artist_id' => $artist->id,
-          'social_platform_id' => $platform->id,
+          'platform_id' => $platform->id,
         ], [
           'url' => 'https://' . $platform->slug . '.com/' . Str::slug($artist->name),
           'created_at' => now(),

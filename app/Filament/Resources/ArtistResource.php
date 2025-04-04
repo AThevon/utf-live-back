@@ -7,6 +7,7 @@ use App\Filament\Resources\ArtistResource\Pages\EditArtist;
 use App\Filament\Resources\ArtistResource\Pages\ListArtists;
 use App\Filament\Resources\ArtistResource\RelationManagers\ImageRelationManager;
 use App\Filament\Resources\ArtistResource\RelationManagers\SocialLinksRelationManager;
+use App\Filament\Resources\ArtistResource\RelationManagers\MusicalLinksRelationManager;
 use App\Models\Artist;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -125,6 +126,7 @@ class ArtistResource extends Resource
     return [
       ImageRelationManager::class,
       SocialLinksRelationManager::class,
+      MusicalLinksRelationManager::class,
     ];
   }
 

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ArtistSocialLink extends Model
+class ArtistPlatformLink extends Model
 {
-  protected $fillable = ['artist_id', 'social_platform_id', 'url'];
+  protected $fillable = ['artist_id', 'platform_id', 'url'];
 
   public function artist()
   {
@@ -15,7 +15,7 @@ class ArtistSocialLink extends Model
 
   public function platform()
   {
-    return $this->belongsTo(SocialPlatform::class, 'social_platform_id');
+    return $this->belongsTo(Platform::class, 'platform_id');
   }
 }
 

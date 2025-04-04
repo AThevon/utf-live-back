@@ -15,7 +15,6 @@ class AdminUserSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'password' => Hash::make('admin'),
-                // ajoute d'autres colonnes si besoin (role, is_admin…)
             ]
         );
     }

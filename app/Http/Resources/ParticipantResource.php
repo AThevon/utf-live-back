@@ -13,7 +13,7 @@ class ParticipantResource extends JsonResource
     'id' => $this->id,
     'name' => $this->name,
     'slug' => $this->slug,
-    'socials' => SocialPlatformResource::collection($this->whenLoaded('socialLinks')),
+    'platforms' => PlatformResource::collection($this->whenLoaded('platformLinks')),
   ];
 }
 

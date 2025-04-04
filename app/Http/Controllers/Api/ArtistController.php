@@ -21,7 +21,7 @@ class ArtistController extends Controller
   
   public function show(Artist $artist)
   {
-    $artist->load(['images', 'socialLinks.platform']);
+    $artist->load(['images', 'platformLinks.platform']);
     return new ArtistResource($artist);
   }
 }

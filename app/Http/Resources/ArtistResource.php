@@ -38,8 +38,17 @@ class ArtistResource extends JsonResource
         return $data;
       }),
 
-      'socials' => $this->whenLoaded('socialLinks', function () {
-        return SocialPlatformResource::collection($this->socialLinks);
+      'platforms' => $this->whenLoaded('platformLinks', function () {
+        $social = $this->platformLinks
+          ->filter(fn($link) => $link->platform?->type === 'social');
+
+        $music = $this->platformLinks
+          ->filter(fn($link) => $link->platform?->type === 'music');
+
+        return [
+          'social' => PlatformResource::collection($social),
+          'music' => PlatformResource::collection($music),
+        ];
       }),
 
       'latest_session_slug' => optional($this->liveSessionsAsMain->sortByDesc('created_at')->first())->slug,

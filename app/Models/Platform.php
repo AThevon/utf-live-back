@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SocialPlatform extends Model
+class Platform extends Model
 {
-  protected $fillable = ['name', 'slug', 'icon'];
+  protected $fillable = ['name', 'slug', 'type', 'icon'];
 
   public function artistLinks(): HasMany
   {
-    return $this->hasMany(ArtistSocialLink::class);
+    return $this->hasMany(ArtistPlatformLink::class);
   }
 
   public function getIconUrlAttribute(): string

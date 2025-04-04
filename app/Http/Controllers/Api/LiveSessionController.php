@@ -21,7 +21,7 @@ class LiveSessionController extends Controller
   public function show($slug)
   {
     $session = LiveSession::where('slug', $slug)
-      ->with(['artist.images', 'artist.socialLinks.platform', 'participants.images', 'participants.socialLinks.platform'])
+      ->with(['artist.images', 'artist.platformLinks.platform', 'participants.images', 'participants.platformLinks.platform'])
       ->firstOrFail();
 
     return new LiveSessionResource($session);

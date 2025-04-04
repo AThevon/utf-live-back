@@ -32,10 +32,30 @@ class Artist extends Model
     return $this->morphMany(\App\Models\Image::class, 'imageable');
   }
 
-  public function socialLinks(): HasMany
+  public function platformLinks()
+{
+    return $this->hasMany(ArtistPlatformLink::class);
+}
+
+
+  public function socialLinks()
   {
-    return $this->hasMany(ArtistSocialLink::class);
+    return $this
+      ->hasMany(\App\Models\ArtistPlatformLink::class)
+      ->whereHas('platform', function ($query) {
+        $query->where('type', 'social');
+      });
   }
+
+  public function musicalLinks()
+  {
+    return $this
+      ->hasMany(\App\Models\ArtistPlatformLink::class)
+      ->whereHas('platform', function ($query) {
+        $query->where('type', 'music');
+      });
+  }
+
 
   public function getPhotoUrlAttribute(): ?string
   {

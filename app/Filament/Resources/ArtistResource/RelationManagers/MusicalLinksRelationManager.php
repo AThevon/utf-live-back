@@ -12,39 +12,38 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class SocialLinksRelationManager extends RelationManager
+class MusicalLinksRelationManager extends RelationManager
 {
-    protected static string $relationship = 'socialLinks';
-    protected static ?string $title = 'Réseaux sociaux';
+    protected static string $relationship = 'musicalLinks';
+    protected static ?string $title = 'Plateformes musicales';
 
     public function form(Forms\Form $form): Forms\Form
     {
         return $form->schema([
-          Select::make('platform_id')
-          ->label('Plateforme')
-          ->relationship(
-              'platform',
-              'name',
-              fn($query) => $query->where('type', 'social')
-          )
-          ->searchable()
-          ->preload()
-          ->getOptionLabelFromRecordUsing(function ($record) {
-              $url = asset('storage/' . ltrim($record->icon, '/'));
-              return "
-                  <div class='flex items-center gap-2'>
-                      <img src='{$url}' alt='{$record->name}' class='w-5 h-5 object-contain' />
-                      {$record->name}
-                  </div>
-              ";
-          })
-          ->allowHtml()
-          ->required()
-          ->placeholder('Choisir une plateforme'),
-      
+            Select::make('platform_id')
+                ->label('Plateforme musicale')
+                ->relationship(
+                    'platform',
+                    'name',
+                    fn($query) => $query->where('type', 'music')
+                )
+                ->searchable()
+                ->preload()
+                ->getOptionLabelFromRecordUsing(function ($record) {
+                    $url = asset('storage/' . ltrim($record->icon, '/'));
+                    return "
+                        <div class='flex items-center gap-2'>
+                            <img src='{$url}' alt='{$record->name}' class='w-5 h-5 object-contain' />
+                            {$record->name}
+                        </div>
+                    ";
+                })
+                ->allowHtml()
+                ->required()
+                ->placeholder('Choisir une plateforme musicale'),
 
             TextInput::make('url')
-                ->label('Lien URL')
+                ->label('Lien embed')
                 ->required()
                 ->url(),
         ]);
@@ -64,7 +63,7 @@ class SocialLinksRelationManager extends RelationManager
                     ->label('Plateforme'),
 
                 Tables\Columns\TextColumn::make('url')
-                    ->label('Lien')
+                    ->label('Lien embed')
                     ->url(fn($record) => $record->url)
                     ->openUrlInNewTab(),
             ])
