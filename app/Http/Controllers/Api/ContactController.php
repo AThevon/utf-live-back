@@ -24,19 +24,12 @@ class ContactController extends Controller
       $recipient = config('mail.to.address');
 
       if (!$recipient) {
-        Log::warning('📭 MAIL_TO_ADDRESS manquant dans .env');
         return response()->json([
           'error' => 'Configuration d’envoi incomplète.',
         ], 500);
       }
 
       Mail::to($recipient)->send(new ContactFormMail($validated));
-
-      Log::info('📨 Mail SMTP envoyé avec succès', [
-        'to' => $recipient,
-        'from' => $validated['email'],
-        'subject' => $validated['subject'],
-      ]);
 
       return response()->json([
         'message' => 'Message envoyé avec succès',
