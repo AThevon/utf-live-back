@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use App\Mail\ContactFormMail;
+use App\Services\ResendService;
 
 class ContactController extends Controller
 {
@@ -21,15 +22,13 @@ class ContactController extends Controller
     ]);
 
     try {
-      $recipient = config('mail.to.address');
+      $sent = ResendService::send($validated);
 
-      if (!$recipient) {
+      if (!$sent) {
         return response()->json([
-          'error' => 'Configuration d’envoi incomplète.',
+          'error' => 'L’email n’a pas pu être envoyé.',
         ], 500);
       }
-
-      Mail::to($recipient)->send(new ContactFormMail($validated));
 
       return response()->json([
         'message' => 'Message envoyé avec succès',

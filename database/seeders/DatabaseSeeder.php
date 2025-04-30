@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
       AdminUserSeeder::class,
       PlatformSeeder::class,
       ArtistSeeder::class,
-      ArtistExtraSeeder::class,
+      // ArtistExtraSeeder::class,
     ]);
   }
 }
