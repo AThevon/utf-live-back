@@ -13,7 +13,7 @@ class AdminUserProdSeeder extends Seeder
         $admins = [
             ['name' => 'Adrien', 'email' => 'adrienthevon@gmail.com', 'password' => 'Wuosian4utf@'],
             ['name' => 'Victor', 'email' => 'denayvic.contact@gmail.com', 'password' => 'victordenaynetflix'],
-            ['name' => 'Oniji', 'email' => 'lpuyraud@gmail.com', 'password' => 'victordenaynetflix'],
+            ['name' => 'Oniji', 'email' => 'contactgoldcross@gmail.com', 'password' => 'victordenaynetflix'],
         ];
 
         foreach ($admins as $admin) {
