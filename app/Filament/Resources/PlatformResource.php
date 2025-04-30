@@ -59,7 +59,7 @@ class PlatformResource extends Resource
 
       FileUpload::make('icon')
         ->label("Icône")
-        ->helperText('PNG, JPG, SVG (privilégier SVG)')
+        ->helperText('SVG uniquement')
         ->image()
         ->imageEditor()
         ->directory('icons/platforms')
