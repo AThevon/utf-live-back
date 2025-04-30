@@ -27,7 +27,6 @@ class RouteServiceProvider extends ServiceProvider
       // Routes API (api.undertheflow.com)
       Route::middleware('api')
         ->domain('api.undertheflow.com')
-        ->prefix('api')
         ->group(base_path('routes/api.php'));
     }
   }
