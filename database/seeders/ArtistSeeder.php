@@ -18,22 +18,22 @@ class ArtistSeeder extends Seeder
       [
         'name' => 'NIYMA',
         'slug' => Str::slug('NIYMA'),
-        'bio' => 'Rappeur lo-fi à l’univers chill & relax.',
+        'bio' => '~',
       ],
       [
         'name' => 'Jane et Les Autres',
         'slug' => Str::slug('Jane et Les Autres'),
-        'bio' => 'Chanteuse pop aux influences electro et latines.',
+        'bio' => '~',
       ],
       [
         'name' => 'Cazlab',
         'slug' => Str::slug('Cazlab'),
-        'bio' => 'Chanteuse pop aux influences electro et latines.',
+        'bio' => '~',
       ],
       [
         'name' => 'Jeune JR',
         'slug' => Str::slug('Jeune JR'),
-        'bio' => 'Rappeur Tourangeaux au flow percutant.',
+        'bio' => '~',
       ],
     ];
 
