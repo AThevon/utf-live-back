@@ -19,7 +19,7 @@ class ResendService
 
         $response = Http::withToken(config('services.resend.key'))
             ->post('https://api.resend.com/emails', [
-                'from' => config('mail.from.address'),
+                'from' => config('mail.from.name') . ' <' . config('mail.from.address') . '>',
                 'to' => config('mail.to.address'),
                 'reply_to' => $data['email'],
                 'subject' => $data['subject'],
